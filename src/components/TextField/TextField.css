@@ -1,0 +1,79 @@
+/**
+* Naming 
+*   * library-interface-component-state-property
+*   * color needs to refer to what colour it is
+*/
+
+:root {
+    /* Background color */
+    --gmt-interface-input-background-color: #fff;
+    /* Border color */
+    --gmt-interface-input-border-color: #bfc7cf;
+    /* Border radius */
+    --gmt-interface-input-border-radius: 3px;
+    /* Border size */
+    --gmt-interface-input-border-size: 1px;
+    /* Disabled state opacity ::Tags: disabled, state */
+    --gmt-interface-input-disabled-opacity: 0.6;
+    /* Focus state inner ring color ::Tags: focus, state */
+    --gmt-interface-input-focus-inner-ring-color: #fff;
+    /* Focus state inner ring size ::Tags: focus, state */
+    --gmt-interface-input-focus-inner-ring-size: 2px;
+    /* Focus state outer ring color ::Tags: focus, state */
+    --gmt-interface-input-focus-outer-ring-color: hsl(224deg 92% 45%);
+    /* Focus state outer ring size ::Tags: focus, state */
+    --gmt-interface-input-focus-outer-ring-size: 4px;
+    /* Font size */
+    --gmt-interface-input-font-size: 14px;
+    /* Height */
+    --gmt-interface-input-height: 40px;
+    /* Hover state border color ::Tags: hover, state */
+    --gmt-interface-input-hover-border-color: #e9ebef;
+    /* Hover state border size ::Tags: hover, state */
+    --gmt-interface-input-hover-border-size: 1px;
+    /* Hover state inner ring color ::Tags: hover, state */
+    --gmt-interface-input-hover-shadow-color: #f5f6f8;
+    /* Hover state inner ring size ::Tags: hover, state */
+    --gmt-interface-input-hover-shadow-size: 6px;
+    /* Padding */
+    --gmt-interface-input-padding: 0 16px;
+    /* Text color */
+    --gmt-interface-input-text-color: #374c5d;
+    /* Transition */
+    --gmt-interface-input-transition: box-shadow 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    /* Width */
+    --gmt-interface-input-width: 100%;
+}
+
+.gmt-input {
+    appearance: none;
+    background-color: var(--gmt-interface-input-background-color);
+    border: 0;
+    border-radius: var(--gmt-interface-input-border-radius);
+    box-shadow: inset 0 0 0 var(--gmt-interface-input-border-size) var(--gmt-interface-input-border-color);
+    box-sizing: border-box;
+    color: var(--gmt-interface-input-text-color);
+    font-size: var(--gmt-interface-input-font-size);
+    height: var(--gmt-interface-input-height);
+    line-height: 1.5;
+    outline: 0;
+    padding: var(--gmt-interface-input-padding);
+    transition: var(--gmt-interface-input-transition);
+    width: var(--gmt-interface-input-width);
+}
+
+.gmt-input:hover {
+    box-shadow: inset 0 0 0 var(--gmt-interface-input-hover-border-size) var(--gmt-interface-input-hover-border-color),
+        0 0 0 var(--gmt-interface-input-hover-shadow-size) var(--gmt-interface-input-hover-shadow-color);
+}
+
+.gmt-input:focus {
+    box-shadow: inset 0 0 0 var(--gmt-interface-input-border-size) var(--gmt-interface-input-border-color),
+        0 0 0 var(--gmt-interface-input-focus-inner-ring-size) var(--gmt-interface-input-focus-inner-ring-color),
+        0 0 0 var(--gmt-interface-input-focus-outer-ring-size) var(--gmt-interface-input-focus-outer-ring-color);
+}
+
+.gmt-input:disabled {
+    opacity: var(--gmt-interface-input-disabled-opacity);
+    pointer-events: none;
+}

@@ -1,0 +1,1 @@
+export {GamuttLogo} from './GamuttLogo';

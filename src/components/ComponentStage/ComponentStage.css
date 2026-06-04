@@ -1,0 +1,18 @@
+
+:root {
+    --gmt-component-stage-background: #fff;
+    --gmt-component-stage-border-color: #e9ebef;
+    --gmt-component-stage-inner-padding: 16px 40px 16px 0;
+    --gmt-component-stage-padding: 0 0 0 14px;
+}
+
+.gmt-component-stage {
+    background: var(--gmt-component-stage-background);
+    border: 1px solid var(--gmt-component-stage-border-color);
+    font-family: Helvetica Neue, sans-serif;
+    padding: var(--gmt-component-stage-padding);
+}
+
+.gmt-component-stage__inner {
+    padding: var(--gmt-component-stage-inner-padding);
+}

@@ -1,0 +1,210 @@
+/**
+* Naming 
+*   * library-interface-component-state-property
+*   * color needs to refer to what colour it is
+*/
+
+:root {
+    /* Box background */
+    --gmt-interface-checkbox-box-background: #fff;
+    /* Box border color */
+    --gmt-interface-checkbox-box-border-color: #bfc7cf;
+    /* Box border radius */
+    --gmt-interface-checkbox-box-border-radius: 2px;
+    /* Box border weight */
+    --gmt-interface-checkbox-box-border-weight: 1px;
+    /* Box height */
+    --gmt-interface-checkbox-box-height: 16px;
+    /* Radio box top position */
+    --gmt-interface-checkbox-box-top: 3px;
+    /* Box transition */
+    --gmt-interface-checkbox-box-transition: background 200ms ease 0s,
+        box-shadow 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    /* Box width */
+    --gmt-interface-checkbox-box-width: 16px;
+    /* Checked state box background ::Tags: checked, state */
+    --gmt-interface-checkbox-checked-box-background: hsl(224deg 92% 45%);
+    /* Checked state box border color ::Tags: checked, state */
+    --gmt-interface-checkbox-checked-box-border-color: hsl(224deg 92% 45%);
+    /* Checked state box border weight ::Tags: checked, state */
+    --gmt-interface-checkbox-checked-box-border-weight: 2px;
+    /* Checked focus state box inner ring color ::Tags: focus, state */
+    --gmt-interface-checkbox-checked-focus-box-inner-ring-color: #fff;
+    /* Checked focus state box inner ring size ::Tags: focus, state */
+    --gmt-interface-checkbox-checked-focus-box-inner-ring-size: 2px;
+    /* Checked focus state box outer ring color ::Tags: focus, state */
+    --gmt-interface-checkbox-checked-focus-box-outer-ring-color: hsl(224deg 92% 45%);
+    /* Checked focus state box outer ring size ::Tags: focus, state */
+    --gmt-interface-checkbox-checked-focus-box-outer-ring-size: 4px;
+    /* Checked hover state box border color ::Tags: hover, state */
+    --gmt-interface-checkbox-checked-hover-box-border-color: hsl(224deg 92% 45%);
+    /* Checked hover state box border weight ::Tags: hover, state */
+    --gmt-interface-checkbox-checked-hover-box-border-weight: 2px;
+    /* Disabled state opacity ::Tags: disabled, state */
+    --gmt-interface-checkbox-disabled-opacity: 0.6;
+    /* Focus state box focus border color  ::Tags: focus, state */
+    --gmt-interface-checkbox-focus-box-border-color: hsl(224deg 92% 45%);
+    /* Focus state box border weight ::Tags: focus, state */
+    --gmt-interface-checkbox-focus-box-border-weight: 2px;
+    /* Focus state box inner ring color ::Tags: focus, state */
+    --gmt-interface-checkbox-focus-box-inner-ring-color: transparent;
+    /* Focus state box inner ring size ::Tags: focus, state */
+    --gmt-interface-checkbox-focus-box-inner-ring-size: 0;
+    /* Focus state box outer ring color ::Tags: focus, state */
+    --gmt-interface-checkbox-focus-box-outer-ring-color: transparent;
+    /* Focus state box outer ring size ::Tags: focus, state */
+    --gmt-interface-checkbox-focus-box-outer-ring-size: 0;
+    /* Hover state box border color ::Tags: hover, state */
+    --gmt-interface-checkbox-hover-box-border-color: #bfc7cf;
+    /* Hover state box border weight ::Tags: hover, state */
+    --gmt-interface-checkbox-hover-box-border-weight: 1px;
+    /* Hover state box inner ring color ::Tags: hover, state */
+    --gmt-interface-checkbox-hover-box-inner-ring-color: #f5f6f8;
+    /* Hover state box inner ring size ::Tags: hover, state */
+    --gmt-interface-checkbox-hover-box-inner-ring-size: 6px;
+    /* Hover state box outer ring color ::Tags: hover, state */
+    --gmt-interface-checkbox-hover-box-outer-ring-color: rgb(0 0 0 / 0%);
+    /* Hover state box outer ring size ::Tags: hover, state */
+    --gmt-interface-checkbox-hover-box-outer-ring-size: 0;
+    /* Label font size */
+    --gmt-interface-checkbox-label-font-size: 14px;
+    /* Padding between box and label */
+    --gmt-interface-checkbox-label-padding-left: 8px;
+    /* Label text color */
+    --gmt-interface-checkbox-label-text-color: #1e2e3b;
+    /* Tick color */
+    --gmt-interface-checkbox-tick-color: #fff;
+    /* Tick long tail length */
+    --gmt-interface-checkbox-tick-long-tail-length: 10px;
+    /* Tick short tail length */
+    --gmt-interface-checkbox-tick-short-tail-length: 6px;
+    /* Tick offset from top */
+    --gmt-interface-checkbox-tick-top: 2px;
+    /* Tick transition */
+    --gmt-interface-checkbox-tick-transition: opacity 0.3s ease 0s;
+    /* Tick weight */
+    --gmt-interface-checkbox-tick-weight: 2px;
+}
+
+.gmt-checkbox {
+    align-items: flex-start;
+    box-sizing: border-box;
+    color: var(--gmt-interface-checkbox-label-text-color);
+    display: flex;
+    font-size: var(--gmt-interface-checkbox-label-font-size);
+    position: relative;
+    user-select: none;
+}
+
+.gmt-checkbox * {
+    box-sizing: inherit;
+}
+
+.gmt-checkbox__input {
+    cursor: pointer;
+    flex: 0 0 auto;
+    height: var(--gmt-interface-checkbox-box-height);
+    margin: 0;
+    opacity: 0;
+    position: relative;
+    top: var(--gmt-interface-checkbox-box-top);
+    width: var(--gmt-interface-checkbox-box-width);
+    z-index: 1;
+}
+
+.gmt-checkbox__label {
+    cursor: pointer;
+    line-height: 1.5;
+    padding-left: var(--gmt-interface-checkbox-label-padding-left);
+}
+
+.gmt-checkbox.gmt-checkbox--has-hidden-label .gmt-checkbox__label {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.gmt-checkbox__box {
+    align-items: center;
+    background: var(--gmt-interface-checkbox-box-background);
+    border: var(--gmt-interface-checkbox-box-border-weight) solid var(--gmt-interface-checkbox-box-border-color);
+    border-radius: var(--gmt-interface-checkbox-box-border-radius);
+    display: flex;
+    height: var(--gmt-interface-checkbox-box-height);
+    justify-content: center;
+    position: absolute;
+    top: var(--gmt-interface-checkbox-box-top);
+    transition: var(--gmt-interface-checkbox-box-transition);
+    width: var(--gmt-interface-checkbox-box-width);
+}
+
+.gmt-checkbox__tick {
+    border: var(--gmt-interface-checkbox-tick-weight) solid var(--gmt-interface-checkbox-tick-color);
+    border-right: none;
+    border-top: none;
+    height: var(--gmt-interface-checkbox-tick-short-tail-length);
+    opacity: 0;
+    position: absolute;
+    top: var(--gmt-interface-checkbox-tick-top);
+    transform: rotate(-50deg);
+    transition: var(--gmt-interface-checkbox-tick-transition);
+    width: var(--gmt-interface-checkbox-tick-long-tail-length);
+}
+
+.gmt-checkbox__input:hover + .gmt-checkbox__box {
+    border: var(--gmt-interface-checkbox-hover-box-border-weight) solid
+        var(--gmt-interface-checkbox-hover-box-border-color);
+    box-shadow: 0 0 0 var(--gmt-interface-checkbox-hover-box-inner-ring-size)
+            var(--gmt-interface-checkbox-hover-box-inner-ring-color),
+        0 0 0 var(--gmt-interface-checkbox-hover-box-outer-ring-size)
+            var(--gmt-interface-checkbox-hover-box-outer-ring-color);
+}
+
+.gmt-checkbox__input:disabled {
+    pointer-events: none;
+}
+
+.gmt-checkbox__input:disabled + .gmt-checkbox__box,
+.gmt-checkbox__input:disabled ~ .gmt-checkbox__label {
+    opacity: var(--gmt-interface-checkbox-disabled-opacity);
+    pointer-events: none;
+}
+
+.gmt-checkbox__input:focus + .gmt-checkbox__box {
+    border: var(--gmt-interface-checkbox-focus-box-border-weight) solid
+        var(--gmt-interface-checkbox-focus-box-border-color);
+    box-shadow: 0 0 0 var(--gmt-interface-checkbox-focus-box-inner-ring-size)
+            var(--gmt-interface-checkbox-focus-box-inner-ring-color),
+        0 0 0 var(--gmt-interface-checkbox-focus-box-outer-ring-size)
+            var(--gmt-interface-checkbox-focus-box-outer-ring-color);
+    outline: 0;
+}
+
+.gmt-checkbox__input:checked + .gmt-checkbox__box {
+    background: var(--gmt-interface-checkbox-checked-box-background);
+    border: var(--gmt-interface-checkbox-checked-box-border-weight) solid
+        var(--gmt-interface-checkbox-checked-box-border-color);
+}
+
+.gmt-checkbox__input:checked:hover + .gmt-checkbox__box {
+    border: var(--gmt-interface-checkbox-checked-hover-box-border-weight) solid
+        var(--gmt-interface-checkbox-checked-hover-box-border-color);
+}
+
+.gmt-checkbox__input:checked + .gmt-checkbox__box > .gmt-checkbox__tick {
+    opacity: 1;
+    /* top: 2px; */
+}
+
+.gmt-checkbox__input:checked:focus + .gmt-checkbox__box {
+    box-shadow: 0 0 0 var(--gmt-interface-checkbox-checked-focus-box-inner-ring-size)
+            var(--gmt-interface-checkbox-checked-focus-box-inner-ring-color),
+        0 0 0 var(--gmt-interface-checkbox-checked-focus-box-outer-ring-size)
+            var(--gmt-interface-checkbox-checked-focus-box-outer-ring-color);
+    outline: 0;
+}

@@ -1,0 +1,66 @@
+{
+  "name": "gamutt",
+  "version": "0.1.0",
+  "description": "A framework-agnostic component preview playground — render React components and native custom elements side by side with live controls, URL-synced state, and a source-code panel.",
+  "license": "Apache-2.0",
+  "author": "Chris Wright",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chriswrightdesign/gamutt.git"
+  },
+  "type": "module",
+  "main": "./dist/gamutt.cjs.js",
+  "module": "./dist/gamutt.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./css": "./dist/gamutt.css",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/gamutt.es.js",
+      "require": "./dist/gamutt.cjs.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "start": "vite --config vite.preview-config.ts",
+    "preview": "vite --config vite.preview-config.ts",
+    "build": "vite build",
+    "definition": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "preview",
+    "playground",
+    "components",
+    "web-components",
+    "custom-elements",
+    "react"
+  ],
+  "dependencies": {
+    "prismjs": "^1.28.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.0.4",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "jsdom": "^29.1.1",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.12",
+    "vitest": "^4.1.6"
+  }
+}

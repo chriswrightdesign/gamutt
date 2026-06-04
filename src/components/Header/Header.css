@@ -1,0 +1,11 @@
+.gmt-header {
+    border-bottom: 1px solid var(--gmt-header-border-color, #ececed);
+    line-height: 1;
+    padding-bottom: 32px;
+    padding-top: 8px;
+    width: 100%;
+}
+
+.gmt-header__logo {
+    color: var(--gmt-header-logo-color, #111);
+}

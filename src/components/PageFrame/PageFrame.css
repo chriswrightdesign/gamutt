@@ -1,0 +1,20 @@
+
+.gmt-site {
+    align-items: stretch;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: row-reverse;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.gmt-stage {
+    flex: 1;
+    height: 100%;
+    line-height: var(--gmt-line-height-stage);
+    margin-top: 0;
+    min-height: 100vh;
+    padding: var(--gmt-spacing-24);
+    position: relative;
+    z-index: var(--gmt-layer-stage);
+}

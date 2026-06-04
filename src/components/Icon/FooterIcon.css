@@ -1,0 +1,13 @@
+
+.gmt-footer-icon {
+    display: block;
+    transform: rotate(180deg);
+}
+
+.gmt-footer-icon--inverted {
+    transform: rotate(0deg);
+}
+
+.gmt-footer-icon svg {
+    display: block;
+}

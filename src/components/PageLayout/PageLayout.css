@@ -1,0 +1,11 @@
+.gmt-page-layout {
+    width: calc(100vw - 324px);
+}
+
+.gmt-page-layout.gmt-page-layout--full {
+    width: calc(100vw - 48px);
+}
+
+.gmt-page-layout.gmt-page-layout--left {
+    margin-left: 300px;
+}

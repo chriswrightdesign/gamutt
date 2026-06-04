@@ -1,0 +1,194 @@
+/**
+* Naming 
+*   * library-interface-component-state-property
+*   * color needs to refer to what colour it is
+*/
+
+:root {
+    /* Radio border radius */
+    --gmt-interface-radio-border-radius: 50%;
+    /* Radio box background */
+    --gmt-interface-radio-box-background: #fff;
+    /* Radio box border color */
+    --gmt-interface-radio-box-border-color: #bfc7cf;
+    /* Radio box border weight */
+    --gmt-interface-radio-box-border-weight: 1px;
+    /* Radio box height */
+    --gmt-interface-radio-box-height: 16px;
+    /* Radio box top position */
+    --gmt-interface-radio-box-top: 3px;
+    /* Radio box transition */
+    --gmt-interface-radio-box-transition: background 200ms ease 0s,
+        box-shadow 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67), border 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    /* Radio box width */
+    --gmt-interface-radio-box-width: 16px;
+    /* Checked state box background ::Tags: state, checked */
+    --gmt-interface-radio-checked-box-background: hsl(224deg 92% 45%);
+    /* Checked state box border color ::Tags: state, checked */
+    --gmt-interface-radio-checked-box-border-color: hsl(224deg 92% 45%);
+    /* Checked state box border weight ::Tags: state, checked */
+    --gmt-interface-radio-checked-box-border-weight: 2px;
+    /* Checked focus state box inner ring color ::Tags: focus, checked, state */
+    --gmt-interface-radio-checked-focus-box-inner-ring-color: #fff;
+    /* Checked focus state box inner ring size ::Tags: focus, checked, state */
+    --gmt-interface-radio-checked-focus-box-inner-ring-size: 2px;
+    /* Checked focus state box outer ring color ::Tags: focus, checked, state */
+    --gmt-interface-radio-checked-focus-box-outer-ring-color: hsl(224deg 92% 45%);
+    /* Checked focus state box outer ring size ::Tags: focus, checked, state */
+    --gmt-interface-radio-checked-focus-box-outer-ring-size: 4px;
+    /* Checked hover state box border color ::Tags: hover, checked, state */
+    --gmt-interface-radio-checked-hover-box-border-color: hsl(224deg 92% 45%);
+    /* Checked hover state box border weight ::Tags: hover, checked, state */
+    --gmt-interface-radio-checked-hover-box-border-weight: 1px;
+    /* Disabled state opacity ::Tags: disabled, state */
+    --gmt-interface-radio-disabled-opacity: 0.6;
+    /* Focus state box border color ::Tags: focus, state */
+    --gmt-interface-radio-focus-box-border-color: hsl(224deg 92% 45%);
+    /* Focus state box border weight ::Tags: focus, state */
+    --gmt-interface-radio-focus-box-border-weight: 2px;
+    /* Hover state box border color ::Tags: hover, state */
+    --gmt-interface-radio-hover-box-border-color: #bfc7cf;
+    /* Hover state box border weight ::Tags: hover, state */
+    --gmt-interface-radio-hover-box-border-weight: 1px;
+    /* Hover state box inner ring color ::Tags: hover, state */
+    --gmt-interface-radio-hover-box-inner-ring-color: #f5f6f8;
+    /* Hover state box inner ring size ::Tags: hover, state */
+    --gmt-interface-radio-hover-box-inner-ring-size: 6px;
+    /* Hover state box outer ring color ::Tags: hover, state */
+    --gmt-interface-radio-hover-box-outer-ring-color: rgb(0 0 0 / 0%);
+    /* Hover state box outer ring size ::Tags: hover, state */
+    --gmt-interface-radio-hover-box-outer-ring-size: 0;
+    /* Label font size */
+    --gmt-interface-radio-label-font-size: 14px;
+    /* Label padding between radio and label */
+    --gmt-interface-radio-label-padding-left: 8px;
+    /* Label text color */
+    --gmt-interface-radio-label-text-color: #1e2e3b;
+    /* Tick background */
+    --gmt-interface-radio-tick-background: #fff;
+    /* Tick border */
+    --gmt-interface-radio-tick-border: 1px solid transparent;
+    /* Tick border radius */
+    --gmt-interface-radio-tick-border-radius: 50%;
+    /* Tick height */
+    --gmt-interface-radio-tick-height: 6px;
+    /* Tick transition */
+    --gmt-interface-radio-tick-transition: opacity 0.3s ease 0s;
+    /* Tick width */
+    --gmt-interface-radio-tick-width: 6px;
+}
+
+.gmt-radio {
+    align-items: flex-start;
+    box-sizing: border-box;
+    color: var(--gmt-interface-radio-label-text-color);
+    display: flex;
+    font-size: var(--gmt-interface-radio-label-font-size);
+    position: relative;
+    user-select: none;
+}
+
+.gmt-radio * {
+    box-sizing: inherit;
+}
+
+.gmt-radio__input {
+    cursor: pointer;
+    flex: 0 0 auto;
+    height: var(--gmt-interface-radio-box-height);
+    margin: 0;
+    opacity: 0;
+    position: relative;
+    top: var(--gmt-interface-radio-box-top);
+    width: var(--gmt-interface-radio-box-width);
+    z-index: 1;
+}
+
+.gmt-radio__label {
+    cursor: pointer;
+    line-height: 1.5;
+    padding-left: var(--gmt-interface-radio-label-padding-left);
+}
+
+.gmt-radio.gmt-radio--has-hidden-label .gmt-radio__label {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.gmt-radio__box {
+    align-items: center;
+    background: var(--gmt-interface-radio-box-background);
+    border: var(--gmt-interface-radio-box-border-weight) solid var(--gmt-interface-radio-box-border-color);
+    border-radius: var(--gmt-interface-radio-border-radius);
+    display: flex;
+    height: var(--gmt-interface-radio-box-height);
+    justify-content: center;
+    position: absolute;
+    top: var(--gmt-interface-radio-box-top);
+    transition: var(--gmt-interface-radio-box-transition);
+    width: var(--gmt-interface-radio-box-width);
+}
+
+.gmt-radio__tick {
+    background: var(--gmt-interface-radio-tick-background);
+    border: var(--gmt-interface-radio-tick-border);
+    border-radius: var(--gmt-interface-radio-tick-border-radius);
+    height: var(--gmt-interface-radio-tick-height);
+    opacity: 0;
+    transition: var(--gmt-interface-radio-tick-transition);
+    width: var(--gmt-interface-radio-tick-width);
+}
+
+.gmt-radio__input:disabled + .gmt-radio__box,
+.gmt-radio__input:disabled ~ .gmt-radio__label {
+    opacity: var(--gmt-interface-radio-disabled-opacity);
+    pointer-events: none;
+}
+
+.gmt-radio__input:focus + .gmt-radio__box {
+    border: var(--gmt-interface-radio-focus-box-border-weight) solid
+        var(--gmt-interface-radio-focus-box-border-color);
+    outline: 0;
+}
+
+.gmt-radio__input:checked + .gmt-radio__box {
+    background: var(--gmt-interface-radio-checked-box-background);
+    border: var(--gmt-interface-radio-checked-box-border-weight) solid
+        var(--gmt-interface-radio-checked-box-border-color);
+}
+
+.gmt-radio__input:hover + .gmt-radio__box {
+    border: var(--gmt-interface-radio-hover-box-border-weight) solid
+        var(--gmt-interface-radio-hover-box-border-color);
+    box-shadow: 0 0 0 var(--gmt-interface-radio-hover-box-inner-ring-size)
+            var(--gmt-interface-radio-hover-box-inner-ring-color),
+        0 0 0 var(--gmt-interface-radio-hover-box-outer-ring-size)
+            var(--gmt-interface-radio-hover-box-outer-ring-color);
+}
+
+.gmt-radio__input:checked:hover + .gmt-radio__box {
+    border: var(--gmt-interface-radio-checked-hover-box-border-weight) solid
+        var(--gmt-interface-radio-checked-hover-box-border-color);
+}
+
+.gmt-radio__input:checked + .gmt-radio__box > .gmt-radio__tick {
+    opacity: 1;
+}
+
+.gmt-radio__input:checked:focus + .gmt-radio__box {
+    box-shadow: 0 0 0 var(--gmt-interface-radio-checked-focus-box-inner-ring-size)
+            var(--gmt-interface-radio-checked-focus-box-inner-ring-color),
+        0 0 0 var(--gmt-interface-radio-checked-focus-box-outer-ring-size)
+            var(--gmt-interface-radio-checked-focus-box-outer-ring-color);
+    outline: 0;
+}
+
+.gmt-radio__input:disabled {
+    pointer-events: none;
+}

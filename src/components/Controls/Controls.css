@@ -1,0 +1,203 @@
+
+:root {
+    --gmt-controls-background-panel: #f9fafa;
+    --gmt-controls-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    --gmt-controls-dock-background: #fff;
+    --gmt-controls-dock-button-border-radius: 3px;
+    --gmt-controls-dock-button-focus-background: #f5f6f8;
+    --gmt-controls-dock-button-focus-box-shadow: 0 0 0 2px #fff, 0 0 0 4px hsl(224, 92%, 45%);
+    --gmt-controls-dock-button-focus-text-color: #2a2941;
+    --gmt-controls-dock-button-hover-background: #f5f6f8;
+    --gmt-controls-dock-button-hover-text-color: #2a2941;
+    --gmt-controls-dock-font-size: 10px;
+    --gmt-controls-dock-logo-color: black;
+    --gmt-controls-dock-logo-dimensions: 32px;
+    --gmt-controls-heading-color: #606b8c;
+   
+}
+
+.gmt-controls {
+    background: var(--gmt-controls-background-panel);
+    border: 1px solid var(--gmt-color-border);
+    box-shadow: var(--gmt-controls-box-shadow);
+    font-family: Helvetica Neue, sans-serif;
+    opacity: 1;
+    padding: 0;
+    position: fixed;
+    transition: opacity 0.2s linear;
+    z-index: 50;
+}
+
+.gmt-controls__group-heading {
+    font-size: var(--gmt-font-size-12);
+    font-weight: 500;
+    margin: 0;
+    padding-bottom: var(--gmt-spacing-8);
+}
+
+.gmt-controls__inner {
+    display: grid;
+    grid-gap: var(--gmt-spacing-16);
+    grid-template-columns: repeat(auto-fit, minmax(280px, max-content));
+    max-height: 100vh;
+    overflow-y: scroll;
+    padding-top: var(--gmt-spacing-40);
+}
+
+.gmt-controls__content {
+    padding: var(--gmt-spacing-24);
+}
+
+.gmt-controls__items > * + * {
+    margin-top: var(--gmt-spacing-4);
+}
+
+.gmt-controls__group + .gmt-controls__group {
+    margin-top: var(--gmt-spacing-16);
+}
+
+.gmt-controls h1,
+.gmt-controls h2,
+.gmt-controls h3,
+.gmt-controls h5,
+.gmt-controls h6 {
+    color: var(--gmt-color-text-heavy);
+}
+
+.gmt-controls h4 {
+    color: var(--gmt-controls-heading-color);
+}
+
+
+.gmt-controls--dock-position-right-sidebar {
+    bottom: 0;
+    left: auto;
+    right: 0;
+    top: 0;
+    white-space: nowrap;
+    width: auto;
+}
+
+.gmt-controls--dock-position-footer {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+.gmt-controls--dock-position-left-sidebar {
+    bottom: 0;
+    left: 0;
+    right: auto;
+    top: 0;
+    white-space: nowrap;
+    width: auto;
+    
+}
+
+.gmt-controls.is-dragging {
+    opacity: 0.6;
+}
+
+/* Stop the underlying stage from text-selecting while the panel is dragged. */
+.gmt-demo-page.is-dragging {
+    user-select: none;
+}
+
+.gmt-controls--dock-position-detach {
+    right: 72px;
+    top: 200px;
+}
+
+.gmt-controls--dock-position-detach .gmt-controls__inner {
+    max-height: 50vh;
+    padding-bottom: var(--gmt-spacing-24);
+}
+
+.gmt-controls--dock-position-footer .gmt-controls__inner {
+    max-height: 30vh;
+    overflow-y: scroll;
+}
+
+.gmt-dock-controls {
+    align-items: center;
+    background: var(--gmt-controls-dock-background);
+    border-bottom: 1px solid var(--gmt-color-border);
+    display: flex;
+    font-size: var(--gmt-controls-dock-font-size);
+    gap: var(--gmt-spacing-8);
+    left: 0;
+    padding: var(--gmt-spacing-8) 0 var(--gmt-spacing-8) var(--gmt-spacing-16);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.gmt-dock-controls__button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100;
+}
+
+.gmt-dock-controls__drag-slot {
+    position: absolute;
+    right: 0;
+}
+
+.gmt-dock-controls__logo {
+    align-items: center;
+    border-radius: var(--gmt-controls-dock-button-border-radius);
+    color: var(--gmt-controls-dock-logo-color);
+    display: flex;
+    height: var(--gmt-controls-dock-logo-dimensions);
+    transition: background-color .1s cubic-bezier(.42,0,1,1), box-shadow .2s cubic-bezier(.17,.67,.83,.67);
+    width: var(--gmt-controls-dock-logo-dimensions);
+}
+
+.gmt-dock-controls__grab {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    padding-right: var(--gmt-spacing-8);
+    /* Let the handle own pointer gestures so touch/pen drags aren't hijacked for scroll/zoom. */
+    touch-action: none;
+}
+
+.gmt-dock-controls__grab.is-dragging {
+    cursor: move;
+}
+
+.gmt-toggle-layout-controls {
+    display: grid;
+    grid-gap: var(--gmt-spacing-4);
+    grid-template-columns: repeat(4, max-content);
+}
+
+.gmt-toggle-layout-controls__button {
+    background: none;
+    border: none;
+    border-radius: var(--gmt-controls-dock-button-border-radius);
+    cursor: pointer;
+    padding: var(--gmt-spacing-8);
+    transition: background-color .1s cubic-bezier(.42,0,1,1), box-shadow .2s cubic-bezier(.17,.67,.83,.67);
+}
+
+.gmt-toggle-layout-controls__button:hover {
+    background: var(--gmt-controls-dock-button-hover-background);
+    color: var(--gmt-controls-dock-button-hover-text-color);
+}
+
+.gmt-toggle-layout-controls__button:focus {
+    background: var(--gmt-controls-dock-button-focus-background);
+    box-shadow: var(--gmt-controls-dock-button-focus-box-shadow);
+    color: var(--gmt-controls-dock-button-focus-text-color);
+    outline: 0;
+}
+
+.gmt-toggle-layout-controls__button.is-active {
+    background: var(--gmt-controls-dock-button-focus-background);
+    color: var(--gmt-controls-dock-button-focus-text-color);
+    pointer-events: none;
+}

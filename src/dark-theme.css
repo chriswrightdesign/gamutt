@@ -1,0 +1,99 @@
+/**
+ * Dark theme. Activated by `data-theme="dark"` on the document root (set by useColorScheme).
+ * Scoped under :root[data-theme="dark"], so light mode is untouched.
+ *
+ * Theming is done by overriding colour custom properties (not by adding competing rules),
+ * which is how the rest of the app themes. Components that had inline colours now read
+ * `var(--token, <light fallback>)`, so light mode keeps its exact values and dark mode just
+ * supplies the token below. Tweak the palette via the neutral scale at the top.
+ *
+ * The component stage (preview canvas) is intentionally left light so previewed components
+ * still render as designed; only the surrounding chrome goes dark.
+ */
+
+:root[data-theme="dark"] {
+    --gmt-category-item-background: var(--gmt-dark-surface);
+    --gmt-category-item-shadow: rgb(0 0 0 / 45%) 0px 4px 8px -2px, rgb(0 0 0 / 25%) 0px 0px 0px 1px;
+    --gmt-category-item-text: var(--gmt-dark-text);
+    --gmt-code-button-hover-background: var(--gmt-dark-hover);
+    --gmt-code-button-text: var(--gmt-dark-text-muted);
+    --gmt-code-snippet-background: var(--gmt-dark-surface-recessed);
+    /* global neutrals */
+    --gmt-color-border: var(--gmt-dark-border);
+    --gmt-color-library-icon: #3a3a46;
+    --gmt-color-text-heavy: var(--gmt-dark-text);
+    --gmt-color-text-light: var(--gmt-dark-text-muted);
+    /* component stage: keep the canvas background light; only darken its border */
+    --gmt-component-stage-border-color: var(--gmt-dark-border);
+    /* controls panel + dock */
+    --gmt-controls-background-panel: var(--gmt-dark-surface-recessed);
+    --gmt-controls-dock-background: var(--gmt-dark-surface);
+    --gmt-controls-dock-button-focus-background: var(--gmt-dark-hover);
+    --gmt-controls-dock-button-focus-box-shadow: 0 0 0 2px var(--gmt-dark-surface), 0 0 0 4px var(--gmt-dark-accent);
+    --gmt-controls-dock-button-focus-text-color: var(--gmt-dark-text);
+    --gmt-controls-dock-button-hover-background: var(--gmt-dark-hover);
+    --gmt-controls-dock-button-hover-text-color: var(--gmt-dark-text);
+    --gmt-controls-dock-logo-color: var(--gmt-dark-text);
+    --gmt-controls-heading-color: var(--gmt-dark-text-muted);
+    --gmt-dark-accent: hsl(224deg 92% 62%);
+    /* dark neutral scale — adjust these */
+    --gmt-dark-bg: #16161d;
+    --gmt-dark-border: #34343f;
+    --gmt-dark-border-hover: #55555f;
+    --gmt-dark-border-strong: #44444f;
+    --gmt-dark-hover: #2b2b35;
+    --gmt-dark-surface: #202028;
+    --gmt-dark-surface-recessed: #1c1c24;
+    --gmt-dark-text: #e7e9f0;
+    --gmt-dark-text-field: #cdd2db;
+    --gmt-dark-text-muted: #9aa3b4;
+    /* inline-colour components (tokenised in their own CSS as var(--token, <light fallback>)) */
+    --gmt-header-border-color: var(--gmt-dark-border);
+    --gmt-header-logo-color: var(--gmt-dark-text);
+    --gmt-interface-checkbox-box-background: var(--gmt-dark-surface);
+    --gmt-interface-checkbox-box-border-color: var(--gmt-dark-border-strong);
+    --gmt-interface-checkbox-checked-box-background: var(--gmt-dark-accent);
+    --gmt-interface-checkbox-checked-box-border-color: var(--gmt-dark-accent);
+    --gmt-interface-checkbox-checked-focus-box-inner-ring-color: var(--gmt-dark-surface);
+    --gmt-interface-checkbox-checked-focus-box-outer-ring-color: var(--gmt-dark-accent);
+    --gmt-interface-checkbox-checked-hover-box-border-color: var(--gmt-dark-accent);
+    --gmt-interface-checkbox-focus-box-border-color: var(--gmt-dark-accent);
+    --gmt-interface-checkbox-hover-box-border-color: var(--gmt-dark-border-hover);
+    --gmt-interface-checkbox-hover-box-inner-ring-color: var(--gmt-dark-hover);
+    /* checkbox */
+    --gmt-interface-checkbox-label-text-color: var(--gmt-dark-text-field);
+    /* text input */
+    --gmt-interface-input-background-color: var(--gmt-dark-surface);
+    --gmt-interface-input-border-color: var(--gmt-dark-border-strong);
+    --gmt-interface-input-focus-inner-ring-color: var(--gmt-dark-surface);
+    --gmt-interface-input-focus-outer-ring-color: var(--gmt-dark-accent);
+    --gmt-interface-input-hover-border-color: var(--gmt-dark-border-hover);
+    --gmt-interface-input-hover-shadow-color: var(--gmt-dark-hover);
+    --gmt-interface-input-text-color: var(--gmt-dark-text-field);
+    --gmt-interface-radio-box-background: var(--gmt-dark-surface);
+    --gmt-interface-radio-box-border-color: var(--gmt-dark-border-strong);
+    --gmt-interface-radio-checked-box-background: var(--gmt-dark-accent);
+    --gmt-interface-radio-checked-box-border-color: var(--gmt-dark-accent);
+    --gmt-interface-radio-checked-focus-box-inner-ring-color: var(--gmt-dark-surface);
+    --gmt-interface-radio-checked-focus-box-outer-ring-color: var(--gmt-dark-accent);
+    --gmt-interface-radio-checked-hover-box-border-color: var(--gmt-dark-accent);
+    --gmt-interface-radio-focus-box-border-color: var(--gmt-dark-accent);
+    --gmt-interface-radio-hover-box-border-color: var(--gmt-dark-border-hover);
+    --gmt-interface-radio-hover-box-inner-ring-color: var(--gmt-dark-hover);
+    /* radio */
+    --gmt-interface-radio-label-text-color: var(--gmt-dark-text-field);
+    /* select */
+    --gmt-interface-select-background: var(--gmt-dark-surface);
+    --gmt-interface-select-border-color: var(--gmt-dark-border-strong);
+    --gmt-interface-select-focus-inner-ring-color: var(--gmt-dark-surface);
+    --gmt-interface-select-focus-outer-ring-color: var(--gmt-dark-accent);
+    --gmt-interface-select-hover-border-color: var(--gmt-dark-border-hover);
+    --gmt-interface-select-hover-shadow-color: var(--gmt-dark-hover);
+    --gmt-interface-select-text-color: var(--gmt-dark-text-field);
+}
+
+/* Page surface — light mode sets no base background/colour, so this is dark-only and uncontested. */
+:root[data-theme="dark"] .gmt-stage {
+    background: var(--gmt-dark-bg);
+    color: var(--gmt-dark-text);
+}

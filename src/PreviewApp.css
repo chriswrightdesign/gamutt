@@ -1,0 +1,115 @@
+@import './components/Checkbox/Checkbox.css';
+@import './components/Radio/Radio.css';
+@import './components/SelectField/SelectField.css';
+@import './components/TextField/TextField.css';
+
+/**
+ 1. Variables
+ 2. Small reset and  Base HTML styles
+ 3. Generic utilities
+
+/* 1. Variables */
+:root {
+    --l-example-grid-column-number: 1;
+    /** border colours */
+    --gmt-color-border: #e5e9ec;
+    --gmt-color-library-icon: #e1e1e4;
+    /** text colours */
+    --gmt-color-text-heavy: #2a2941;
+    --gmt-color-text-light: #5a6979;
+    /* dimensions */
+    --gmt-dimensions-sidebar-width: 328px;
+    /** fonts */
+    --gmt-font-size-12: 0.75rem;
+    --gmt-font-size-14: 0.875rem;
+    --gmt-font-size-16: 1rem;
+    --gmt-font-size-18: 1.125rem;
+    --gmt-font-size-20: 1.25rem;
+    --gmt-font-size-24: 1.5rem;
+    /** font size for headings */
+    --gmt-font-weight-medium: 500;
+    /** layers **/
+    --gmt-layer-sidebar: 1;
+    --gmt-layer-stage: 1;
+    --gmt-line-height-stage: 1.5;
+    --gmt-spacing-12: 12px;
+    --gmt-spacing-16: 16px;
+    --gmt-spacing-20: 20px;
+    --gmt-spacing-24: 24px;
+    --gmt-spacing-28: 28px;
+    --gmt-spacing-32: 32px;
+    --gmt-spacing-36: 36px;
+    /** Spacing 4-base scale */
+    --gmt-spacing-4: 4px;
+    --gmt-spacing-40: 40px;
+    --gmt-spacing-48: 48px;
+    --gmt-spacing-56: 56px;
+    --gmt-spacing-64: 64px;
+    --gmt-spacing-8: 8px;
+}
+
+
+@media (min-width: 600px) {
+    :root {
+        --l-example-grid-column-number: 3;
+    }
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --l-example-grid-column-number: 4;
+    }
+}
+
+/* 2. simplified reset and base styles */
+[tabindex='-1']:focus {
+    outline: none !important;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* end simplified reset */
+
+/* 3. CSS Utilities */
+.gmt-visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.gmt-visuallyhidden.focusable:active,
+.gmt-visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+.gmt-break-word {
+    overflow-wrap: break-word;
+    /* Required for firefox */
+    word-break: break-all;
+    /* Works in safari and chrome */
+    word-break: break-word;
+    word-wrap: break-word;
+}
+/* End utilities */

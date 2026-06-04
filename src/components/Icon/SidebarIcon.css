@@ -1,0 +1,12 @@
+.gmt-sidebar-icon {
+    display: block;
+    transform: rotate(180deg);
+}
+
+.gmt-sidebar-icon--left {
+    transform: rotate(0deg);
+}
+
+.gmt-sidebar-icon svg {
+    display: block;
+}

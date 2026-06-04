@@ -1,0 +1,142 @@
+/**
+* Naming 
+*   * library-interface-component-state-property
+*   * color needs to refer to what colour it is
+*/
+
+:root {
+    /* Background */
+    --gmt-interface-select-background: #fff;
+    /* Border color */
+    --gmt-interface-select-border-color: #bfc7cf;
+    /* Border radius */
+    --gmt-interface-select-border-radius: 3px;
+    /* Border size */
+    --gmt-interface-select-border-size: 1px;
+    /* Caret color ::Tags: caret, parts */
+    --gmt-interface-select-caret-color: currentcolor;
+    /* Caret height ::Tags: caret, parts */
+    --gmt-interface-select-caret-height: 16px;
+    /* Caret right position ::Tags: caret, parts */
+    --gmt-interface-select-caret-right-position: 16px;
+    /* Caret weight ::Tags: caret, parts */
+    --gmt-interface-select-caret-weight: 2;
+    /* Caret width ::Tags: caret, parts */
+    --gmt-interface-select-caret-width: 16px;
+    /* Disabled state opacity ::Tags: disabled, state */
+    --gmt-interface-select-disabled-opacity: 0.6;
+    /* Focus state border color ::Tags: focus, state */
+    --gmt-interface-select-focus-border-color: var(--gmt-interface-select-border-color);
+    /* Focus state border size ::Tags: focus, state */
+    --gmt-interface-select-focus-border-size: 1px;
+    /* Focus state inner ring color ::Tags: focus, state */
+    --gmt-interface-select-focus-inner-ring-color: #fff;
+    /* Focus state inner ring size ::Tags: focus, state */
+    --gmt-interface-select-focus-inner-ring-size: 2px;
+    /* Focus state outer ring color ::Tags: focus, state */
+    --gmt-interface-select-focus-outer-ring-color: hsl(224deg 92% 45%);
+    /* Focus state outer ring size ::Tags: focus, state */
+    --gmt-interface-select-focus-outer-ring-size: 4px;
+    /* Font size */
+    --gmt-interface-select-font-size: 14px;
+    /* Height */
+    --gmt-interface-select-height: 40px;
+    /* Hover state border color ::Tags: hover, state */
+    --gmt-interface-select-hover-border-color: #e9ebef;
+    /* Hover state shadow color ::Tags: hover, state */
+    --gmt-interface-select-hover-shadow-color: #f5f6f8;
+    /* Hover state shadow size ::Tags: hover, state */
+    --gmt-interface-select-hover-shadow-size: 6px;
+    /* Line height */
+    --gmt-interface-select-line-height: 1.5;
+    /* Menu background */
+    --gmt-interface-select-menu-background: transparent;
+    /* Padding */
+    --gmt-interface-select-padding: 0 8px 0 16px;
+    /* Text color */
+    --gmt-interface-select-text-color: #374c5d;
+    /* Transition */
+    --gmt-interface-select-transition: box-shadow 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    /* Width */
+    --gmt-interface-select-width: 100%;
+}
+
+.gmt-select {
+    background: var(--gmt-interface-select-background);
+    border-radius: var(--gmt-interface-select-border-radius);
+    box-sizing: border-box;
+    color: var(--gmt-interface-select-text-color);
+    display: block;
+    height: fit-content;
+    line-height: var(--gmt-interface-select-line-height);
+    position: relative;
+    width: var(--gmt-interface-select-width);
+}
+
+.gmt-select__control {
+    appearance: none;
+    background: var(--gmt-interface-select-menu-background);
+    border: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 var(--gmt-interface-select-border-size) var(--gmt-interface-select-border-color),
+        0 0 0 var(--gmt-interface-select-hover-shadow-size) transparent;
+    box-sizing: border-box;
+    color: var(--gmt-interface-select-text-color);
+    cursor: pointer;
+    display: block;
+    font-size: var(--gmt-interface-select-font-size);
+    height: var(--gmt-interface-select-height);
+    outline: 0;
+    padding: var(--gmt-interface-select-padding);
+    text-align: left;
+    transition: var(--gmt-interface-select-transition);
+    width: inherit;
+}
+
+.gmt-select_control::-ms-expand {
+    display: none;
+}
+
+.gmt-select__control:disabled {
+    opacity: var(--gmt-interface-select-disabled-opacity);
+    pointer-events: none;
+}
+
+.gmt-select:hover .gmt-select__control {
+    box-shadow: inset 0 0 0 var(--gmt-interface-select-border-size) var(--gmt-interface-select-hover-border-color),
+        0 0 0 var(--gmt-interface-select-hover-shadow-size) var(--gmt-interface-select-hover-shadow-color);
+}
+
+.gmt-select:focus-within .gmt-select__control {
+    box-shadow: inset 0 0 0 var(--gmt-interface-select-focus-border-size)
+            var(--gmt-interface-select-focus-border-color),
+        0 0 0 var(--gmt-interface-select-focus-inner-ring-size) var(--gmt-interface-select-focus-inner-ring-color),
+        0 0 0 var(--gmt-interface-select-focus-outer-ring-size) var(--gmt-interface-select-focus-outer-ring-color);
+}
+
+.gmt-select.is-disabled {
+    pointer-events: none;
+}
+
+.gmt-select__icon {
+    color: var(--gmt-interface-select-caret-color);
+    pointer-events: none;
+    position: absolute;
+    right: var(--gmt-interface-select-caret-right-position);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.gmt-select__control:disabled + .gmt-select__icon {
+    opacity: var(--gmt-interface-select-disabled-opacity);
+}
+
+.gmt-select__icon > svg {
+    display: block;
+    height: var(--gmt-interface-select-caret-height);
+    width: var(--gmt-interface-select-caret-width);
+}
+
+.gmt-select__icon-svg-path {
+    stroke-width: var(--gmt-interface-select-caret-weight);
+}

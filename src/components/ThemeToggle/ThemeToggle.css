@@ -1,0 +1,29 @@
+/* Floating control, fixed to the bottom-left of the viewport. */
+.gmt-theme-toggle {
+    align-items: center;
+    background: var(--gmt-controls-dock-background);
+    border: 1px solid var(--gmt-color-border);
+    border-radius: 50%;
+    bottom: var(--gmt-spacing-16);
+    color: var(--gmt-color-text-heavy);
+    cursor: pointer;
+    display: inline-flex;
+    height: 36px;
+    justify-content: center;
+    left: var(--gmt-spacing-16);
+    padding: 0;
+    position: fixed;
+    transition: background-color 0.15s linear, color 0.15s linear, box-shadow 0.2s ease;
+    width: 36px;
+    z-index: 100;
+}
+
+.gmt-theme-toggle:hover {
+    background: var(--gmt-controls-dock-button-hover-background);
+}
+
+/* ::Tags: focus */
+.gmt-theme-toggle:focus {
+    box-shadow: 0 0 0 2px var(--gmt-controls-dock-background), 0 0 0 4px hsl(224, 92%, 45%);
+    outline: 0;
+}

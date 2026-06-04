@@ -1,0 +1,74 @@
+
+.gmt-code-display {
+    border: 1px solid var(--gmt-component-stage-border-color);
+    border-top: 0;
+   
+}
+
+.gmt-code-display__controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.gmt-code-display__snippet {
+    background: var(--gmt-code-snippet-background, #f9fafa);
+    border-bottom: 1px solid var(--gmt-component-stage-border-color);
+    padding: 8px 16px;
+}
+
+.gmt-code-display__code-type-controls {
+    display: flex;
+    opacity: 0;
+}
+
+.gmt-code-display__code-type-controls.is-active {
+    opacity: 1;
+}
+
+.gmt-code-display__source-button {
+    align-items: center;
+    background: none;
+    border: none;
+    border-right: 1px solid var(--gmt-component-stage-border-color);
+    color: var(--gmt-code-button-text, #595252);
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    gap: 4px;
+    padding: 8px 16px;
+    transition: background 300ms linear;
+}
+
+.gmt-code-display__source-button:hover {
+    background: var(--gmt-code-button-hover-background, #f5f6f8);
+}
+
+.gmt-icon-chevron {
+    display: block;
+}
+
+.gmt-code-display__source-button.is-active .gmt-icon-chevron {
+    transform: rotateX(180deg);
+}
+
+.gmt-code-display__code-type-button {
+    background: none;
+    background: transparent;
+    border: none;
+    color: var(--gmt-code-button-text, #595252);
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: background 300ms linear;
+}
+
+.gmt-code-display__code-type-button:hover {
+    background: var(--gmt-code-button-hover-background, #f5f6f8);
+}
+
+.gmt-code-display__code-type-button.is-active {
+    background: var(--gmt-code-button-hover-background, #f5f6f8);
+}
+
+.gmt-code-display__code-type-control {
+    border-left: 1px solid var(--gmt-component-stage-border-color);
+}
