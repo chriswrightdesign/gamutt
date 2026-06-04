@@ -43,4 +43,13 @@ describe("applyCustomElementBinding", () => {
         element.dispatchEvent(new Event("solar-button-focus"));
         expect(handler).toHaveBeenCalledTimes(1);
     });
+
+    it("removes the attributes it set on cleanup (so dropped keys don't linger)", () => {
+        const {cleanup} = applyCustomElementBinding(element, {attributes: {type: "submit", disabled: true}});
+        expect(element.getAttribute("type")).toBe("submit");
+
+        cleanup();
+        expect(element.hasAttribute("type")).toBe(false);
+        expect(element.hasAttribute("disabled")).toBe(false);
+    });
 });

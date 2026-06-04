@@ -82,34 +82,29 @@ const useQueryState = ({controls, defaultState, hasSidebarControls, isDragging}:
     }, [exampleState, controlsDockPosition, isDragging]);
 
     const onSetProperty: OnSetProperty = (type, controlId, enableRule) => (event) => {
+        // Capture event values synchronously — the synthetic event's currentTarget is cleared before
+        // the functional state updater below runs.
+        const {currentTarget} = event;
+        const value = currentTarget.value;
+        const targetId = currentTarget.id;
         const enableRuleState = enableRule ? enableRule(event, exampleState) : {};
 
-        if (type === "select") {
-            const newState = {
-                ...exampleState,
-                [controlId]: event.currentTarget.value,
-            };
+        // Functional update so rapid successive changes build on the latest state, not a stale closure.
+        setExampleState((previous) => {
+            if (type === "select" || type === "input") {
+                return {...previous, [controlId]: value, ...enableRuleState};
+            }
 
-            setExampleState({...newState, ...enableRuleState});
-            return;
-        }
+            if (type === "union") {
+                return {...previous, [controlId]: targetId, ...enableRuleState};
+            }
 
-        const {currentTarget} = event;
+            if (type === "options") {
+                return {...previous, [targetId]: !previous[targetId], ...enableRuleState};
+            }
 
-        if (type === "input") {
-            setExampleState({...exampleState, [controlId]: currentTarget.value, ...enableRuleState});
-            return;
-        }
-
-        if (type === "union") {
-            setExampleState({...exampleState, [controlId]: currentTarget.id, ...enableRuleState});
-            return;
-        }
-
-        if (type === "options") {
-            setExampleState({...exampleState, [currentTarget.id]: !exampleState[currentTarget.id], ...enableRuleState});
-            return;
-        }
+            return previous;
+        });
     };
 
     return {exampleState, onSetProperty, controlsDockPosition, setControlsDockPosition};

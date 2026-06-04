@@ -77,6 +77,7 @@ const PreviewApp = ({examples, logo}: PreviewAppProps): React.JSX.Element => {
         if (activeExample) {
             return (
                 <DemoPage
+                    key={path}
                     cssCodeExample={activeExample.cssCodeExample}
                     jsCodeExample={activeExample.jsCodeExample}
                     htmlCodeExample={activeExample.htmlCodeExample}

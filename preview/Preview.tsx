@@ -15,11 +15,20 @@ class GmtDemoBadge extends HTMLElement {
 
     connectedCallback(): void {
         this.render();
+        this.addEventListener('click', this.handleClick);
+    }
+
+    disconnectedCallback(): void {
+        this.removeEventListener('click', this.handleClick);
     }
 
     attributeChangedCallback(): void {
         this.render();
     }
+
+    private handleClick = (): void => {
+        this.dispatchEvent(new CustomEvent('gmt-badge-select', {detail: {variant: this.getAttribute('variant')}}));
+    };
 
     private render(): void {
         if (!this.shadowRoot) {

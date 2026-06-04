@@ -8,7 +8,9 @@ import {DragButton} from '../components/DragButton';
 import {ControlsGroup} from '../components/Controls/ControlsGroup';
 import {CodeAccordion} from '../components/CodeAccordion';
 import {PageLayout} from '../components/PageLayout';
-import {ControlSetup, CodeExample, DockPosition, ExampleTarget} from '../PreviewApp.types';
+import {ErrorBoundary} from '../components/ErrorBoundary';
+import {EventsPanel, LoggedEvent} from '../components/EventsPanel';
+import {ControlSetup, CodeExample, DockPosition, ExampleEvent, ExampleTarget} from '../PreviewApp.types';
 import {useDragPanel} from '../utils/useDragPanel';
 import {useQueryState} from '../utils/useQueryState';
 import {resolveControlSetup} from '../utils/deriveControls';
@@ -38,7 +40,16 @@ const DemoPage = ({
     htmlCodeExample,
     hasSidebarControls = true,
 }: DemoPageProps) => {
-    const {controls, defaultState} = resolveControlSetup(target, controlSetup ?? {});
+    const {controls, defaultState} = React.useMemo(
+        () => resolveControlSetup(target, controlSetup ?? {}),
+        [target, controlSetup]
+    );
+
+    const [events, setEvents] = React.useState<LoggedEvent[]>([]);
+    const handleEvent = React.useCallback((event: ExampleEvent) => {
+        setEvents((previous) => [...previous, {id: (previous[previous.length - 1]?.id ?? -1) + 1, ...event}].slice(-50));
+    }, []);
+    const clearEvents = React.useCallback(() => setEvents([]), []);
 
     const {position, isDragging, handlePointerDown, handlePointerMove, handlePointerUp} = useDragPanel();
 
@@ -69,7 +80,9 @@ const DemoPage = ({
         <div className={classMap({'gmt-demo-page': true, 'is-dragging': isDragging})}>
             <PageLayout layoutType={SIDEBAR_LAYOUT[controlsDockPosition]}>
                 <ComponentStage>
-                    <ExampleRenderer target={target} controlState={exampleState} />
+                    <ErrorBoundary resetKey={JSON.stringify(exampleState)}>
+                        <ExampleRenderer target={target} controlState={exampleState} onEvent={handleEvent} />
+                    </ErrorBoundary>
                 </ComponentStage>
 
                 {controls.length > 0 ? (
@@ -149,6 +162,7 @@ const DemoPage = ({
                 {jsCode || cssCode || htmlCode ? (
                     <CodeAccordion jsCode={jsCode} cssCode={cssCode} htmlCode={htmlCode} />
                 ) : null}
+                <EventsPanel events={events} onClear={clearEvents} />
             </PageLayout>
         </div>
     );

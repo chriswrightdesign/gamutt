@@ -11,7 +11,7 @@ const applyAttribute = (element: HTMLElement, name: string, value: string | numb
 };
 
 export interface AppliedBinding {
-    /** Removes every event listener this binding attached; call before re-applying and on unmount. */
+    /** Reverts this binding (removes the attributes it set and detaches its event listeners); call before re-applying and on unmount. */
     cleanup: () => void;
 }
 
@@ -22,7 +22,9 @@ export interface AppliedBinding {
  * (via `Reflect.set`, so Lit picks up complex/non-reflected values); events are attached with `addEventListener`.
  */
 export const applyCustomElementBinding = (element: HTMLElement, binding: CustomElementBinding): AppliedBinding => {
-    Object.entries(binding.attributes ?? {}).forEach(([name, value]) => {
+    const attributeEntries = Object.entries(binding.attributes ?? {});
+
+    attributeEntries.forEach(([name, value]) => {
         applyAttribute(element, name, value);
     });
 
@@ -38,6 +40,10 @@ export const applyCustomElementBinding = (element: HTMLElement, binding: CustomE
 
     return {
         cleanup: () => {
+            // Remove the attributes this binding set so any dropped on the next render don't linger.
+            attributeEntries.forEach(([name]) => {
+                element.removeAttribute(name);
+            });
             events.forEach(([name, handler]) => {
                 element.removeEventListener(name, handler);
             });

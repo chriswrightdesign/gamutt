@@ -6,6 +6,13 @@ export type ControlStateValue = string | number | boolean | undefined;
 /** The live state of every control for an example, keyed by control id. */
 export type ExampleState = Record<string, ControlStateValue>;
 
+/** An event dispatched by a previewed custom element, surfaced in the events panel. */
+export interface ExampleEvent {
+    name: string;
+    detail: unknown;
+    time: number;
+}
+
 /** Runs when a control changes; returns extra state to merge in (e.g. to reset dependent controls). */
 export type EnableRule = (
     event: React.FormEvent<HTMLInputElement | HTMLSelectElement>,

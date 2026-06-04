@@ -1,0 +1,19 @@
+.gmt-stage-error {
+    border: 1px solid hsl(0, 65%, 55%);
+    border-radius: 6px;
+    color: hsl(0, 70%, 75%);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    max-width: 100%;
+    padding: 16px;
+}
+
+.gmt-stage-error__title {
+    font-weight: 600;
+    margin: 0 0 8px;
+}
+
+.gmt-stage-error__message {
+    margin: 0;
+    overflow: auto;
+    white-space: pre-wrap;
+}

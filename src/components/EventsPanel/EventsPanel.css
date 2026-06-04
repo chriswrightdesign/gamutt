@@ -1,0 +1,59 @@
+.gmt-events {
+    border-top: 1px solid hsl(216, 18%, 25%);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 13px;
+    margin-top: 16px;
+}
+
+.gmt-events__header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+}
+
+.gmt-events__title {
+    font-weight: 600;
+}
+
+.gmt-events__clear {
+    background: none;
+    border: 1px solid hsl(216, 18%, 35%);
+    border-radius: 4px;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    padding: 2px 8px;
+}
+
+.gmt-events__list {
+    list-style: none;
+    margin: 0;
+    max-height: 160px;
+    overflow: auto;
+    padding: 0;
+}
+
+.gmt-events__item {
+    align-items: baseline;
+    column-gap: 12px;
+    display: flex;
+    padding: 4px 12px;
+}
+
+.gmt-events__name {
+    color: hsl(150, 60%, 70%);
+}
+
+.gmt-events__detail {
+    color: hsl(216, 14%, 65%);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gmt-events__time {
+    color: hsl(216, 14%, 50%);
+    flex-shrink: 0;
+}
