@@ -1,6 +1,6 @@
 import React from 'react';
 import {PreviewApp} from '../src/PreviewApp';
-import type {ExampleComponent, ExampleControl, ExampleState} from '../src/PreviewApp.types';
+import type {ComponentDoc, ExampleComponent, ExampleControl, ExampleState} from '../src/PreviewApp.types';
 
 // --- A native custom element, defined with zero dependencies, to demo the custom-element target ---
 class GmtDemoBadge extends HTMLElement {
@@ -66,43 +66,41 @@ const DemoButton = ({controlState}: {controlState: ExampleState}) => {
     );
 };
 
-const buttonControls: ExampleControl[] = [
-    {
-        name: 'Variant',
-        id: 'variant',
-        type: 'union',
-        values: [
-            {name: 'Primary', id: 'primary'},
-            {name: 'Secondary', id: 'secondary'},
-            {name: 'Ghost', id: 'ghost'},
-        ],
+// Hand-authored docgen for DemoButton (gamutt has no build-time docgen step). In solar-ui this comes
+// from the generated typeDocumentation.current.mjs.
+const buttonPropsDoc: ComponentDoc = {
+    props: {
+        variant: {
+            name: 'variant',
+            required: false,
+            type: {name: 'enum', value: [{value: "'primary'"}, {value: "'secondary'"}, {value: "'ghost'"}]},
+            defaultValue: {value: "'primary'"},
+        },
+        disabled: {name: 'disabled', required: false, type: {name: 'boolean'}, defaultValue: {value: 'false'}},
+        label: {name: 'label', required: false, type: {name: 'string'}, defaultValue: {value: "'Click me'"}},
     },
-    {name: 'Attributes', id: 'attributes', type: 'options', values: [{name: 'Disabled', id: 'disabled'}]},
-    {name: 'Label', id: 'label', type: 'input', values: []},
-];
+};
 
-const badgeControls: ExampleControl[] = [
-    {
-        name: 'Variant',
-        id: 'variant',
-        type: 'select',
-        values: [
-            {name: 'Info', id: 'info'},
-            {name: 'Success', id: 'success'},
-            {name: 'Warning', id: 'warning'},
-        ],
-    },
-    {name: 'Label', id: 'label', type: 'input', values: []},
-];
+// Runtime derivation can't see solar-badge's literal variant options, so we merge a custom select onto it.
+const badgeVariantControl: ExampleControl = {
+    name: 'Variant',
+    id: 'variant',
+    type: 'select',
+    values: [
+        {name: 'Info', id: 'info'},
+        {name: 'Success', id: 'success'},
+        {name: 'Warning', id: 'warning'},
+    ],
+};
 
 const examples: ExampleComponent[] = [
     {
         name: 'Button',
         category: 'React',
         component: DemoButton,
+        // Auto-derive controls from the component's prop types; hide `label` from the panel.
         controlSetup: {
-            controls: buttonControls,
-            defaultState: {variant: 'primary', disabled: false, label: 'Click me'},
+            derive: {propsDoc: buttonPropsDoc, hide: ['label']},
         },
         jsCodeExample: ({controlState}) => {
             const variant = typeof controlState.variant === 'string' ? controlState.variant : 'primary';
@@ -114,8 +112,10 @@ const examples: ExampleComponent[] = [
     {
         name: 'Badge',
         category: 'Web Components',
+        // Auto-derive from the element's observedAttributes, then merge a custom variant select on top.
         controlSetup: {
-            controls: badgeControls,
+            derive: true,
+            controls: [badgeVariantControl],
             defaultState: {variant: 'info', label: 'New'},
         },
         target: {

@@ -11,6 +11,7 @@ import {PageLayout} from '../components/PageLayout';
 import {ControlSetup, CodeExample, DockPosition, ExampleTarget} from '../PreviewApp.types';
 import {useDragPanel} from '../utils/useDragPanel';
 import {useQueryState} from '../utils/useQueryState';
+import {resolveControlSetup} from '../utils/deriveControls';
 
 interface DemoPageProps {
     target: ExampleTarget;
@@ -37,8 +38,7 @@ const DemoPage = ({
     htmlCodeExample,
     hasSidebarControls = true,
 }: DemoPageProps) => {
-    const controls = controlSetup?.controls;
-    const defaultState = controlSetup?.defaultState;
+    const {controls, defaultState} = resolveControlSetup(target, controlSetup ?? {});
 
     const {position, isDragging, handlePointerDown, handlePointerMove, handlePointerUp} = useDragPanel();
 
@@ -57,7 +57,7 @@ const DemoPage = ({
 
     const {viewCategory} = exampleState;
 
-    const filteredControls = (controls ?? []).filter((control) => {
+    const filteredControls = controls.filter((control) => {
         if (typeof viewCategory !== 'string' || control.viewCategories === undefined) {
             return true;
         }
@@ -72,7 +72,7 @@ const DemoPage = ({
                     <ExampleRenderer target={target} controlState={exampleState} />
                 </ComponentStage>
 
-                {controls ? (
+                {controls.length > 0 ? (
                     <Controls
                         controlSlot={
                             hasSidebarControls ? (

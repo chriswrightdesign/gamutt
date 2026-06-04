@@ -32,9 +32,33 @@ export interface ExampleControl {
     viewSubCategories?: string[];
 }
 
+/** A minimal subset of react-docgen-typescript's ComponentDoc — enough to derive controls from. */
+export interface ComponentDoc {
+    props: Record<
+        string,
+        {
+            name: string;
+            type: {name: string; value?: {value: string}[]};
+            defaultValue?: {value: string} | null;
+            required: boolean;
+            description?: string;
+        }
+    >;
+}
+
+/** Options for auto-deriving controls from a target's metadata. */
+export interface DeriveOptions {
+    /** Derived control ids (prop names) to omit. */
+    hide?: string[];
+    /** react-docgen-typescript output for the component; required to derive React props (ignored for custom elements). */
+    propsDoc?: ComponentDoc;
+}
+
 export interface ControlSetup {
-    controls: ExampleControl[];
-    defaultState: ExampleState;
+    controls?: ExampleControl[];
+    defaultState?: ExampleState;
+    /** Opt in to deriving controls from the target. `true` derives custom-element metadata at runtime; pass options to also derive React props (`propsDoc`) or `hide` derived ids. */
+    derive?: boolean | DeriveOptions;
 }
 
 /** The curried change handler: `onSetProperty(type, id, enableRule?)` returns a control's onChange. */
