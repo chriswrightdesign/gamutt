@@ -94,6 +94,15 @@ const ControlsGroup = ({name, type, values, onSetProperty, exampleState, id, isC
                         value={String(exampleState[id] ?? "")}
                     />
                 )}
+                {type === "color" && (
+                    <input
+                        className="gmt-controls__color"
+                        type="color"
+                        id={id}
+                        value={String(exampleState[id] ?? "#000000")}
+                        onChange={onSetProperty(type, id)}
+                    />
+                )}
             </div>
         </div>
     );

@@ -52,4 +52,15 @@ describe("applyCustomElementBinding", () => {
         expect(element.hasAttribute("type")).toBe(false);
         expect(element.hasAttribute("disabled")).toBe(false);
     });
+
+    it("applies CSS custom properties and removes them on cleanup", () => {
+        const {cleanup} = applyCustomElementBinding(element, {
+            cssProperties: {"--demo-bg": "#fff", "--demo-empty": undefined},
+        });
+        expect(element.style.getPropertyValue("--demo-bg")).toBe("#fff");
+        expect(element.style.getPropertyValue("--demo-empty")).toBe("");
+
+        cleanup();
+        expect(element.style.getPropertyValue("--demo-bg")).toBe("");
+    });
 });

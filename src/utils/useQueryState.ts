@@ -91,7 +91,7 @@ const useQueryState = ({controls, defaultState, hasSidebarControls, isDragging}:
 
         // Functional update so rapid successive changes build on the latest state, not a stale closure.
         setExampleState((previous) => {
-            if (type === "select" || type === "input") {
+            if (type === "select" || type === "input" || type === "color") {
                 return {...previous, [controlId]: value, ...enableRuleState};
             }
 

@@ -32,6 +32,16 @@ export const applyCustomElementBinding = (element: HTMLElement, binding: CustomE
         Reflect.set(element, name, value);
     });
 
+    const cssPropertyEntries = Object.entries(binding.cssProperties ?? {});
+
+    cssPropertyEntries.forEach(([name, value]) => {
+        if (value === undefined || value === "") {
+            element.style.removeProperty(name);
+        } else {
+            element.style.setProperty(name, value);
+        }
+    });
+
     const events = Object.entries(binding.events ?? {});
 
     events.forEach(([name, handler]) => {
@@ -43,6 +53,9 @@ export const applyCustomElementBinding = (element: HTMLElement, binding: CustomE
             // Remove the attributes this binding set so any dropped on the next render don't linger.
             attributeEntries.forEach(([name]) => {
                 element.removeAttribute(name);
+            });
+            cssPropertyEntries.forEach(([name]) => {
+                element.style.removeProperty(name);
             });
             events.forEach(([name, handler]) => {
                 element.removeEventListener(name, handler);

@@ -30,8 +30,10 @@ export interface ControlValue {
 export interface ExampleControl {
     name: string;
     id: string;
-    type: "union" | "options" | "select" | "input";
+    type: "union" | "options" | "select" | "input" | "color";
     values: ControlValue[];
+    /** Optional group heading; controls sharing a group render together in a collapsible section. */
+    group?: string;
     disableRule?: (exampleState: ExampleState) => boolean;
     enableRule?: EnableRule;
     hideGroup?: (exampleState: ExampleState) => boolean;
@@ -53,12 +55,26 @@ export interface ComponentDoc {
     >;
 }
 
+/** Minimal subset of a Custom Elements Manifest (custom-elements.json) used to derive controls. */
+export interface ComponentManifest {
+    modules: {
+        declarations?: {
+            kind: string;
+            tagName?: string;
+            members?: {kind: string; name: string; type?: {text: string}; default?: string; description?: string; privacy?: string}[];
+            attributes?: {name: string; type?: {text: string}; default?: string; description?: string}[];
+        }[];
+    }[];
+}
+
 /** Options for auto-deriving controls from a target's metadata. */
 export interface DeriveOptions {
     /** Derived control ids (prop names) to omit. */
     hide?: string[];
     /** react-docgen-typescript output for the component; required to derive React props (ignored for custom elements). */
     propsDoc?: ComponentDoc;
+    /** Custom Elements Manifest; when provided, custom-element derivation uses it (richer: union options, descriptions). */
+    manifest?: ComponentManifest;
 }
 
 export interface ControlSetup {
@@ -97,6 +113,19 @@ export interface CustomElementBinding {
     children?: React.ReactNode;
     /** Event name → handler, attached with `addEventListener` and cleaned up on change/unmount. */
     events?: Record<string, (event: Event) => void>;
+    /** CSS custom properties to set on the element (e.g. theme tokens); removed on cleanup. */
+    cssProperties?: Record<string, string | undefined>;
+}
+
+/** A CSS custom property exposed as a live theme control. */
+export interface CssPropControl {
+    /** The custom property name, e.g. "--solar-interface-button-background". */
+    name: string;
+    /** Display label; defaults to a humanised form of `name`. */
+    label?: string;
+    /** "color" renders a colour input, "text" a text input. Defaults to "text". */
+    kind?: "color" | "text";
+    default?: string;
 }
 
 /** Renders a real custom element by tag name, binding control state to its attributes/properties/slots/events. */
@@ -110,6 +139,8 @@ export interface CustomElementExampleTarget {
     bind?: (controlState: ExampleState) => CustomElementBinding;
     /** Optional class for a wrapper element around the custom element — e.g. a themed backdrop. */
     wrapperClassName?: (controlState: ExampleState) => string;
+    /** CSS custom properties to expose as live theme controls (ids = the `--var` names). */
+    cssProps?: CssPropControl[];
 }
 
 /** What an example renders, and how — the pluggable renderer seam (React component vs custom element). */

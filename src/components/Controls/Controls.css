@@ -13,7 +13,11 @@
     --gmt-controls-dock-logo-color: black;
     --gmt-controls-dock-logo-dimensions: 32px;
     --gmt-controls-heading-color: #606b8c;
-   
+    --gmt-controls-search-border: var(--gmt-color-border);
+    --gmt-controls-section-summary-color: #606b8c;
+    --gmt-controls-copy-button-background: hsl(224, 92%, 45%);
+    --gmt-controls-copy-button-text: #fff;
+
 }
 
 .gmt-controls {
@@ -200,4 +204,51 @@
     background: var(--gmt-controls-dock-button-focus-background);
     color: var(--gmt-controls-dock-button-focus-text-color);
     pointer-events: none;
+}
+
+.gmt-controls__search {
+    border: 1px solid var(--gmt-controls-search-border);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: var(--gmt-font-size-12);
+    margin-bottom: var(--gmt-spacing-16);
+    padding: var(--gmt-spacing-8);
+    width: 100%;
+}
+
+.gmt-controls__section {
+    border-top: 1px solid var(--gmt-color-border);
+    margin-top: var(--gmt-spacing-16);
+    padding-top: var(--gmt-spacing-16);
+}
+
+.gmt-controls__section-summary {
+    color: var(--gmt-controls-section-summary-color);
+    cursor: pointer;
+    font-size: var(--gmt-font-size-12);
+    font-weight: 600;
+    margin-bottom: var(--gmt-spacing-8);
+    text-transform: uppercase;
+    user-select: none;
+}
+
+.gmt-controls__color {
+    background: none;
+    border: 1px solid var(--gmt-color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    height: 32px;
+    padding: 2px;
+    width: 100%;
+}
+
+.gmt-controls__copy-theme {
+    background: var(--gmt-controls-copy-button-background);
+    border: none;
+    border-radius: 4px;
+    color: var(--gmt-controls-copy-button-text);
+    cursor: pointer;
+    font-size: var(--gmt-font-size-12);
+    margin-top: var(--gmt-spacing-16);
+    padding: var(--gmt-spacing-8) var(--gmt-spacing-16);
 }

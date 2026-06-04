@@ -16,3 +16,31 @@
 .gmt-component-stage__inner {
     padding: var(--gmt-component-stage-inner-padding);
 }
+
+/* Transparent wrapper so the measured child still participates in the stage's layout. */
+.gmt-stage-content {
+    display: contents;
+}
+
+.gmt-stage-toolbar {
+    align-items: center;
+    display: flex;
+    gap: var(--gmt-spacing-8);
+    padding: var(--gmt-spacing-8) 0 0 var(--gmt-spacing-16);
+}
+
+.gmt-stage-toolbar__button {
+    background: var(--gmt-component-stage-background);
+    border: 1px solid var(--gmt-component-stage-border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Helvetica Neue, sans-serif;
+    font-size: var(--gmt-font-size-12);
+    padding: var(--gmt-spacing-4) var(--gmt-spacing-8);
+}
+
+.gmt-stage-toolbar__button.is-active {
+    background: hsl(224, 92%, 45%);
+    border-color: hsl(224, 92%, 45%);
+    color: #fff;
+}

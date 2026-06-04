@@ -1,0 +1,11 @@
+.gmt-measure {
+    background: hsl(216, 18%, 20%);
+    border: 1px solid hsl(216, 18%, 30%);
+    border-radius: 4px;
+    color: hsl(216, 14%, 75%);
+    display: inline-block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    margin: 8px 0 0 16px;
+    padding: 2px 8px;
+}

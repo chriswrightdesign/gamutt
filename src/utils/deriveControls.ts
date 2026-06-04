@@ -2,11 +2,13 @@ import {
     ComponentDoc,
     ControlSetup,
     ControlStateValue,
+    CssPropControl,
     DeriveOptions,
     ExampleControl,
     ExampleState,
     ExampleTarget,
 } from "../PreviewApp.types";
+import {findDeclaration, ManifestDeclaration, parseUnionLiterals} from "./cem";
 
 type DerivedKind = "boolean" | "number" | "string" | "enum";
 
@@ -123,6 +125,31 @@ const deriveFromDocgen = (doc: ComponentDoc): DerivedProp[] =>
         return {name: prop.name, kind: "string", defaultValue: parseDocgenDefault(rawDefault, "string")};
     });
 
+// --- Custom Elements Manifest: richer than runtime metadata (real union options, descriptions) ---
+
+const deriveFromManifest = (declaration: ManifestDeclaration): DerivedProp[] => {
+    const members = (declaration.members ?? []).filter(
+        (member) => member.kind === "field" && member.privacy !== "private" && member.privacy !== "protected"
+    );
+
+    return members.reduce<DerivedProp[]>((derived, member) => {
+        const typeText = member.type?.text;
+        const options = parseUnionLiterals(typeText);
+
+        if (options) {
+            derived.push({name: member.name, kind: "enum", options, defaultValue: parseDocgenDefault(member.default, "string")});
+        } else if (typeText === "boolean") {
+            derived.push({name: member.name, kind: "boolean", defaultValue: parseDocgenDefault(member.default, "boolean")});
+        } else if (typeText === "number") {
+            derived.push({name: member.name, kind: "number", defaultValue: parseDocgenDefault(member.default, "number")});
+        } else if (typeText === "string") {
+            derived.push({name: member.name, kind: "string", defaultValue: parseDocgenDefault(member.default, "string")});
+        }
+        // Anything else (e.g. @query element refs like HTMLButtonElement) has no sensible control — skip it.
+        return derived;
+    }, []);
+};
+
 // --- Shared: DerivedProp[] → controls + default state ---
 
 const toControls = (props: DerivedProp[]): {controls: ExampleControl[]; defaultState: ExampleState} => {
@@ -185,7 +212,8 @@ export const deriveControls = (
     let props: DerivedProp[] = [];
 
     if (target.type === "custom-element") {
-        props = deriveFromCustomElement(target.tagName);
+        const declaration = options.manifest ? findDeclaration(options.manifest, target.tagName) : undefined;
+        props = declaration ? deriveFromManifest(declaration) : deriveFromCustomElement(target.tagName);
     } else if (target.type === "react" && options.propsDoc) {
         props = deriveFromDocgen(options.propsDoc);
     }
@@ -211,19 +239,43 @@ export const mergeControls = (derived: ExampleControl[], custom: ExampleControl[
 };
 
 /** Resolves the final controls + default state for an example, applying derivation + merge when `derive` is set. */
+/** Builds a "Theme" control (one per declared CSS custom property) for a custom-element target. */
+const cssPropsToControls = (cssProps: CssPropControl[]): {controls: ExampleControl[]; defaultState: ExampleState} => {
+    const defaultState: ExampleState = {};
+    const controls = cssProps.map((prop): ExampleControl => {
+        if (prop.default !== undefined) {
+            defaultState[prop.name] = prop.default;
+        }
+        return {
+            name: prop.label ?? prop.name,
+            id: prop.name,
+            type: prop.kind === "color" ? "color" : "input",
+            values: [],
+            group: "Theme",
+        };
+    });
+    return {controls, defaultState};
+};
+
 export const resolveControlSetup = (
     target: ExampleTarget,
     controlSetup: ControlSetup
 ): {controls: ExampleControl[]; defaultState: ExampleState} => {
-    if (!controlSetup.derive) {
-        return {controls: controlSetup.controls ?? [], defaultState: controlSetup.defaultState ?? {}};
+    let controls = controlSetup.controls ?? [];
+    let defaultState = controlSetup.defaultState ?? {};
+
+    if (controlSetup.derive) {
+        const options = controlSetup.derive === true ? {} : controlSetup.derive;
+        const derived = deriveControls(target, options);
+        controls = mergeControls(derived.controls, controls);
+        defaultState = {...derived.defaultState, ...defaultState};
     }
 
-    const options = controlSetup.derive === true ? {} : controlSetup.derive;
-    const derived = deriveControls(target, options);
+    if (target.type === "custom-element" && target.cssProps && target.cssProps.length > 0) {
+        const theme = cssPropsToControls(target.cssProps);
+        controls = [...controls, ...theme.controls];
+        defaultState = {...theme.defaultState, ...defaultState};
+    }
 
-    return {
-        controls: mergeControls(derived.controls, controlSetup.controls ?? []),
-        defaultState: {...derived.defaultState, ...(controlSetup.defaultState ?? {})},
-    };
+    return {controls, defaultState};
 };

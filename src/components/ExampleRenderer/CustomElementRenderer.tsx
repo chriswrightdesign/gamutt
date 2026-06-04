@@ -37,7 +37,18 @@ const CustomElementRenderer = ({target, controlState, onEvent}: CustomElementRen
         };
     }, [onEvent]);
 
-    const binding = useMemo(() => (target.bind ? target.bind(controlState) : {}), [target, controlState]);
+    const binding = useMemo(() => {
+        const base = target.bind ? target.bind(controlState) : {};
+        if (!target.cssProps || target.cssProps.length === 0) {
+            return base;
+        }
+        const cssProperties: Record<string, string | undefined> = {...base.cssProperties};
+        target.cssProps.forEach((prop) => {
+            const value = controlState[prop.name];
+            cssProperties[prop.name] = typeof value === "string" && value !== "" ? value : undefined;
+        });
+        return {...base, cssProperties};
+    }, [target, controlState]);
 
     useEffect(() => {
         const element = ref.current;

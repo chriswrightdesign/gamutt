@@ -10,7 +10,8 @@ import {CodeAccordion} from '../components/CodeAccordion';
 import {PageLayout} from '../components/PageLayout';
 import {ErrorBoundary} from '../components/ErrorBoundary';
 import {EventsPanel, LoggedEvent} from '../components/EventsPanel';
-import {ControlSetup, CodeExample, DockPosition, ExampleEvent, ExampleTarget} from '../PreviewApp.types';
+import {MeasureOverlay} from '../components/MeasureOverlay';
+import {ControlSetup, CodeExample, DockPosition, ExampleControl, ExampleEvent, ExampleTarget} from '../PreviewApp.types';
 import {useDragPanel} from '../utils/useDragPanel';
 import {useQueryState} from '../utils/useQueryState';
 import {resolveControlSetup} from '../utils/deriveControls';
@@ -60,6 +61,10 @@ const DemoPage = ({
         isDragging,
     });
 
+    const [searchTerm, setSearchTerm] = React.useState('');
+    const [isMeasuring, setIsMeasuring] = React.useState(false);
+    const stageContentRef = React.useRef<HTMLDivElement>(null);
+
     const jsCode = jsCodeExample ? jsCodeExample({controlState: exampleState}) : undefined;
 
     const cssCode = cssCodeExample ? cssCodeExample({controlState: exampleState}) : undefined;
@@ -76,14 +81,112 @@ const DemoPage = ({
         return control.viewCategories.includes(viewCategory);
     });
 
+    const renderControl = (control: ExampleControl): React.ReactNode => {
+        const {
+            type,
+            name,
+            values,
+            id,
+            viewSubCategories,
+            enableRule: enableRuleControl,
+            disableRule: disableRuleControl,
+            hideGroup = () => false,
+        } = control;
+
+        const shouldDisplayOptionGroup =
+            type === 'options' &&
+            Object.values(values).some((value) => {
+                const shouldHideOption = value.hideOption && value.hideOption(exampleState) === true;
+                return shouldHideOption ? false : true;
+            });
+
+        const matchesActiveSubCategory =
+            viewSubCategories === undefined ||
+            viewSubCategories.some((subCategory) => Object.values(exampleState).includes(subCategory));
+
+        const isControlDisabled = disableRuleControl && disableRuleControl(exampleState);
+
+        if (!matchesActiveSubCategory || (type === 'options' && shouldDisplayOptionGroup === false)) {
+            return null;
+        }
+
+        return !hideGroup(exampleState) ? (
+            <ControlsGroup
+                key={id}
+                exampleState={exampleState}
+                isControlDisabled={isControlDisabled}
+                enableRuleControl={enableRuleControl}
+                id={id}
+                type={type}
+                name={name}
+                values={values}
+                onSetProperty={onSetProperty}
+            />
+        ) : null;
+    };
+
+    const searchValue = searchTerm.trim().toLowerCase();
+    const searchedControls = searchValue
+        ? filteredControls.filter(
+              (control) =>
+                  control.name.toLowerCase().includes(searchValue) ||
+                  control.id.toLowerCase().includes(searchValue)
+          )
+        : filteredControls;
+
+    const ungroupedControls = searchedControls.filter((control) => !control.group);
+    const groupOrder: string[] = [];
+    const groupedControls = new Map<string, ExampleControl[]>();
+    searchedControls.forEach((control) => {
+        if (!control.group) {
+            return;
+        }
+        const existing = groupedControls.get(control.group);
+        if (existing) {
+            existing.push(control);
+        } else {
+            groupedControls.set(control.group, [control]);
+            groupOrder.push(control.group);
+        }
+    });
+
+    const copyThemeCss = () => {
+        const selector = target.type === 'custom-element' ? target.tagName : ':root';
+        const lines = controls
+            .filter((control) => control.group === 'Theme')
+            .map((control) => {
+                const value = exampleState[control.id];
+                return typeof value === 'string' && value !== '' ? `  ${control.id}: ${value};` : null;
+            })
+            .filter((line): line is string => line !== null);
+
+        if (lines.length === 0) {
+            return;
+        }
+
+        navigator.clipboard?.writeText(`${selector} {\n${lines.join('\n')}\n}`);
+    };
+
     return (
         <div className={classMap({'gmt-demo-page': true, 'is-dragging': isDragging})}>
             <PageLayout layoutType={SIDEBAR_LAYOUT[controlsDockPosition]}>
                 <ComponentStage>
-                    <ErrorBoundary resetKey={JSON.stringify(exampleState)}>
-                        <ExampleRenderer target={target} controlState={exampleState} onEvent={handleEvent} />
-                    </ErrorBoundary>
+                    <div className="gmt-stage-content" ref={stageContentRef}>
+                        <ErrorBoundary resetKey={JSON.stringify(exampleState)}>
+                            <ExampleRenderer target={target} controlState={exampleState} onEvent={handleEvent} />
+                        </ErrorBoundary>
+                    </div>
                 </ComponentStage>
+                <div className="gmt-stage-toolbar">
+                    <button
+                        type="button"
+                        className={classMap({'gmt-stage-toolbar__button': true, 'is-active': isMeasuring})}
+                        onClick={() => setIsMeasuring((value) => !value)}
+                        aria-pressed={isMeasuring}>
+                        Measure
+                    </button>
+                    <MeasureOverlay targetRef={stageContentRef} enabled={isMeasuring} />
+                </div>
 
                 {controls.length > 0 ? (
                     <Controls
@@ -108,55 +211,30 @@ const DemoPage = ({
                         isDragging={isDragging}
                         controlsDockPosition={controlsDockPosition}
                         position={position}>
-                        {filteredControls.map((control) => {
-                            const {
-                                type,
-                                name,
-                                values,
-                                id,
-                                viewSubCategories,
-                                enableRule: enableRuleControl,
-                                disableRule: disableRuleControl,
-                                hideGroup = () => false,
-                            } = control;
-
-                            const shouldDisplayOptionGroup =
-                                type === 'options' &&
-                                Object.values(values).some((value) => {
-                                    const shouldHideOption =
-                                        value.hideOption && value.hideOption(exampleState) === true;
-                                    return shouldHideOption ? false : true;
-                                });
-
-                            const matchesActiveSubCategory =
-                                viewSubCategories === undefined ||
-                                viewSubCategories.some((subCategory) =>
-                                    Object.values(exampleState).includes(subCategory)
-                                );
-
-                            const isControlDisabled = disableRuleControl && disableRuleControl(exampleState);
-
-                            if (
-                                !matchesActiveSubCategory ||
-                                (type === 'options' && shouldDisplayOptionGroup === false)
-                            ) {
-                                return null;
-                            }
-
-                            return !hideGroup(exampleState) ? (
-                                <ControlsGroup
-                                    key={id}
-                                    exampleState={exampleState}
-                                    isControlDisabled={isControlDisabled}
-                                    enableRuleControl={enableRuleControl}
-                                    id={id}
-                                    type={type}
-                                    name={name}
-                                    values={values}
-                                    onSetProperty={onSetProperty}
-                                />
-                            ) : null;
-                        })}
+                        {controls.length > 3 ? (
+                            <input
+                                type="search"
+                                className="gmt-controls__search"
+                                placeholder="Search controls…"
+                                value={searchTerm}
+                                onChange={(event) => setSearchTerm(event.currentTarget.value)}
+                            />
+                        ) : null}
+                        {ungroupedControls.map(renderControl)}
+                        {groupOrder.map((groupName) => (
+                            <details key={groupName} className="gmt-controls__section" open>
+                                <summary className="gmt-controls__section-summary">{groupName}</summary>
+                                {(groupedControls.get(groupName) ?? []).map(renderControl)}
+                                {groupName === 'Theme' ? (
+                                    <button
+                                        type="button"
+                                        className="gmt-controls__copy-theme"
+                                        onClick={copyThemeCss}>
+                                        Copy theme CSS
+                                    </button>
+                                ) : null}
+                            </details>
+                        ))}
                     </Controls>
                 ) : null}
                 {jsCode || cssCode || htmlCode ? (

@@ -1,6 +1,6 @@
 import {describe, it, expect, beforeAll} from "vitest";
 import {deriveControls, mergeControls, resolveControlSetup} from "./deriveControls";
-import type {ComponentDoc, ExampleControl, ExampleTarget} from "../PreviewApp.types";
+import type {ComponentDoc, ComponentManifest, ExampleControl, ExampleTarget} from "../PreviewApp.types";
 
 // A Lit-like element: static elementProperties Map + instance default fields.
 class LitLikeElement extends HTMLElement {
@@ -86,6 +86,44 @@ describe("deriveControls — React docgen", () => {
     });
 });
 
+describe("deriveControls — manifest", () => {
+    const manifest: ComponentManifest = {
+        modules: [
+            {
+                declarations: [
+                    {
+                        kind: "class",
+                        tagName: "lit-like",
+                        members: [
+                            {kind: "field", name: "variant", type: {text: "'info' | 'success'"}, default: "'info'"},
+                            {kind: "field", name: "disabled", type: {text: "boolean"}, default: "false"},
+                            {kind: "field", name: "secret", type: {text: "string"}, privacy: "private"},
+                            {kind: "field", name: "button", type: {text: "HTMLButtonElement"}},
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+
+    it("prefers the manifest: unions become selects, booleans group under Attributes, privates are skipped", () => {
+        const {controls, defaultState} = deriveControls(ce("lit-like"), {manifest});
+        const variant = controls.find((control) => control.id === "variant");
+        expect(variant?.type).toBe("select");
+        expect(variant?.values.map((value) => value.id)).toEqual(["info", "success"]);
+        const attributes = controls.find((control) => control.id === "attributes");
+        expect(attributes?.values.map((value) => value.id)).toEqual(["disabled"]);
+        expect(controls.find((control) => control.id === "secret")).toBeUndefined();
+        expect(controls.find((control) => control.id === "button")).toBeUndefined();
+        expect(defaultState).toMatchObject({variant: "info", disabled: false});
+    });
+
+    it("falls back to runtime metadata when no manifest declaration matches the tag", () => {
+        const {controls} = deriveControls(ce("lit-like"), {manifest: {modules: []}});
+        expect(controls.map((control) => control.id).sort()).toEqual(["attributes", "count", "type"]);
+    });
+});
+
 describe("mergeControls", () => {
     it("merges custom fields onto a derived control of the same id, keeping unspecified fields", () => {
         const derived: ExampleControl[] = [{name: "Type", id: "type", type: "input", values: []}];
@@ -119,5 +157,19 @@ describe("resolveControlSetup", () => {
         expect(controls.find((control) => control.id === "type")?.type).toBe("select");
         expect(defaultState.type).toBe("button");
         expect(defaultState).toHaveProperty("disabled");
+    });
+
+    it("adds a Theme control group from cssProps, keyed by the custom-property name", () => {
+        const target: ExampleTarget = {
+            type: "custom-element",
+            tagName: "lit-like",
+            cssProps: [{name: "--demo-bg", label: "Background", kind: "color", default: "#fff"}],
+        };
+        const {controls, defaultState} = resolveControlSetup(target, {});
+        const theme = controls.find((control) => control.id === "--demo-bg");
+        expect(theme?.type).toBe("color");
+        expect(theme?.group).toBe("Theme");
+        expect(theme?.name).toBe("Background");
+        expect(defaultState["--demo-bg"]).toBe("#fff");
     });
 });
